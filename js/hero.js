@@ -16,16 +16,16 @@ document.addEventListener("DOMContentLoaded", () => {
   // Select hero image element
   const heroImg = document.querySelector(".hero-img img");
   const heroImages = [
-    "/images/work-items/Continumm.png",
-    "/images/work-items/storageos.jpg",
-    "/images/work-items/Confessit.png",
-    "/images/work-items/tracient.png",
-    "/images/work-items/serverscribe.png",
-    "/images/work-items/netbackup.png",
-    "/images/work-items/dms.png",
-    "/images/work-items/instagramparser.jpg",
-    "/images/work-items/winningtracker.png",
-    "/images/work-items/wordle.png",
+    "./images/work-items/Continumm.png",
+    "./images/work-items/storageos.jpg",
+    "./images/work-items/Confessit.png",
+    "./images/work-items/tracient.png",
+    "./images/work-items/serverscribe.png",
+    "./images/work-items/netbackup.png",
+    "./images/work-items/dms.png",
+    "./images/work-items/instagramparser.jpg",
+    "./images/work-items/winningtracker.png",
+    "./images/work-items/wordle.png",
   ];
   let currentImageIndex = 0; // Tracks current image in sequence
   let scrollTriggerInstance = null; // Stores ScrollTrigger instance for cleanup

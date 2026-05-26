@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
       id: "continumm",
       title: "Continumm",
       subtitle: "Network Telemetry & Observability Platform",
-      image: "/images/work-items/Continumm.png",
+      image: "./images/work-items/Continumm.png",
       github: "https://github.com/Devathmaj/Continumm",
       summary:
         "Production-grade network monitoring backend that auto-discovers devices, polls health, and exposes results through REST APIs, Prometheus metrics, and Grafana dashboards.",
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
       id: "storageos",
       title: "Storage-OS",
       subtitle: "Distributed Storage System with Custom OS",
-      image: "/images/work-items/storageos.jpg",
+      image: "./images/work-items/storageos.jpg",
       github: "https://github.com/Devathmaj/Storage-OS",
       summary:
         "Distributed cloud storage system with a custom Buildroot Linux OS, Go controller, React frontend, and multi-node architecture with automated data distribution and recovery.",
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
       id: "confessit",
       title: "ConfessIt-V2",
       subtitle: "Real-Time Messaging Platform",
-      image: "/images/work-items/Confessit.png",
+      image: "./images/work-items/Confessit.png",
       github: "https://github.com/Devathmaj/ConfessIt-V2",
       summary:
         "Anonymous social platform built around real-time concurrent messaging with WebSockets and fast persistence.",
@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
       id: "tracient",
       title: "Tracient",
       subtitle: "Blockchain Welfare Intelligence Platform",
-      image: "/images/work-items/tracient.png",
+      image: "./images/work-items/tracient.png",
       github: "https://github.com/Devathmaj/tracient",
       summary:
         "Hyperledger Fabric-based platform for income traceability, welfare verification, and anomaly detection using AI/ML pipelines.",

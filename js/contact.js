@@ -35,14 +35,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Define image paths for trail
   const images = [
-    "/images/work-items/Continumm.png",
-    "/images/work-items/storageos.jpg",
-    "/images/work-items/Confessit.png",
-    "/images/work-items/tracient.png",
-    "/images/work-items/serverscribe.png",
-    "/images/work-items/netbackup.png",
-    "/images/work-items/dms.png",
-    "/images/work-items/instagramparser.jpg",
+    "./images/work-items/Continumm.png",
+    "./images/work-items/storageos.jpg",
+    "./images/work-items/Confessit.png",
+    "./images/work-items/tracient.png",
+    "./images/work-items/serverscribe.png",
+    "./images/work-items/netbackup.png",
+    "./images/work-items/dms.png",
+    "./images/work-items/instagramparser.jpg",
   ];
   const trail = []; // Store active trail images
 
