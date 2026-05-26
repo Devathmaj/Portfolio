@@ -2,6 +2,8 @@
 
 Welcome to the source code of my personal portfolio website! This project serves as a showcase of my work in backend engineering, distributed systems, and observability, designed with a focus on smooth interactions, clean code, and a reliable user experience.
 
+🌐 Live Site: https://devathmaj.github.io/Portfolio/
+
 ## 🎯 About Me
 I am a CS undergraduate focused on backend reliability, observability, and distributed infrastructure. I design systems that measure themselves, scale cleanly, and ship with clear operational insight from day one.
 
