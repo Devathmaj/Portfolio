@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact | Devathmaj A Kaliyathan | Portfolio</title>
+    <link rel="icon" href="/images/global/site-icon.png" />
+    <link rel="stylesheet" href="/css/transition.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/css/globals.css" />
+    <link rel="stylesheet" href="/css/menu.css" />
+    <link rel="stylesheet" href="/css/contact.css" />
+  </head>
+  <body>
+    <div class="transition">
+      <div class="transition-overlay overlay-1"></div>
+      <div class="transition-overlay overlay-2"></div>
+      <div class="transition-overlay overlay-3"></div>
+      <div class="transition-overlay overlay-4"></div>
+      <div class="transition-overlay overlay-5"></div>
+    </div>
+    <div class="page contact-page">
+      <nav>
+
+        <div class="back-link">
+          <a class="mn" href="/">Back to Home</a>
+        </div>
+      </nav>
+      <section class="contact trail-container">
+        <div class="floating-elements"></div>
+        <div class="contact-left">
+          <div class="contact-card-header-main">
+            <h1>Get In Touch</h1>
+            <p>
+              Share your project goals and I will get back to you with a clear plan and next steps.
+            </p>
+          </div>
+          <div class="contact-info">
+            <div class="contact-info-item">
+              <p class="label">Email</p>
+              <p><a href="mailto:devathmaj@gmail.com" target="_blank">devathmaj@gmail.com</a></p>
+            </div>
+            <div class="contact-info-item">
+              <p class="label">LinkedIn</p>
+              <p><a href="https://linkedin.com/in/devathmaj" target="_blank">linkedin.com/in/devathmaj</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="contact-form-container">
+          <div class="form-header">
+            <h2>Contact Me</h2>
+            <p>Please share a few details about your project.</p>
+          </div>
+          <form class="contact-form" id="contactForm">
+            <div class="form-row">
+              <div class="form-group">
+                <input type="text" id="name" name="name" placeholder="Your name" required>
+                <label for="name">Name</label>
+              </div>
+              <div class="form-group">
+                <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                <label for="email">Email</label>
+              </div>
+            </div>
+            <div class="form-group full-width">
+              <input type="text" id="subject" name="subject" placeholder="Project inquiry" required>
+              <label for="subject">Subject</label>
+            </div>
+            <div class="form-group full-width">
+              <textarea id="message" name="message" placeholder="Tell me about your project..." required></textarea>
+              <label for="message">Message</label>
+            </div>
+            <button type="submit" class="submit-btn">
+              Send Message
+            </button>
+            <div class="success-message" id="successMessage">
+              <p>Thanks! Your message has been sent. I will reply within 24 hours.</p>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
+    <script type="module" src="/js/transition.js"></script>
+    <script type="module" src="/js/contact.js"></script>
+  </body>
+</html>
