@@ -61,20 +61,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // Direct path match
     if (href === currentPath) return true;
 
-    // Handle root/index page variations
-    if (
-      (currentPath === "/" || currentPath === "/index.html") &&
-      (href === "/" ||
-        href === "/index.html" ||
-        href === "index.html" ||
-        href === "./index.html")
-    ) {
-      return true;
-    }
-
     // Compare file names for matching pages
-    const currentFileName = currentPath.split("/").pop() || "index.html";
-    const hrefFileName = href.split("/").pop();
+    let currentFileName = currentPath.split("/").pop();
+    if (currentFileName === "index.html" || currentFileName === "") currentFileName = "index";
+    else currentFileName = currentFileName.replace(/\.html$/, "");
+
+    let hrefFileName = href.split("/").pop();
+    if (hrefFileName === "index.html" || hrefFileName === "") hrefFileName = "index";
+    else hrefFileName = hrefFileName.replace(/\.html$/, "");
+
     if (currentFileName === hrefFileName) return true;
 
     return false;
