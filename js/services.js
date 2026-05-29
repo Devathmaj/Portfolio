@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .filter(Boolean);
     const stackExitDuration = 0.55;
     const entryDuration = 0.6;
-    const exitHoldDuration = 2.5;
+    const exitHoldDuration = 4.0;
     const scrollDistance = Math.max(
       window.innerHeight * Math.max(services.length - 0.5, 1),
       2200
@@ -116,13 +116,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Re-run animations on window resize to recalculate trigger points.
   // Debounced (250ms) so rapid DevTools viewport switches don't fire overlapping inits.
+  // ScrollTrigger.refresh() is handled centrally by lenis-scroll.js after a longer delay.
   let resizeTimer;
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
       initAnimations();
-      ScrollTrigger.sort();
-      ScrollTrigger.refresh();
     }, 250);
   });
 });

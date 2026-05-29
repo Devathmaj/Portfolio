@@ -379,7 +379,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   output.addEventListener("click", () => {
-    input.focus();
+    if (window.innerWidth > 1000) {
+      input.focus();
+    }
   });
 
   window.addEventListener("keydown", (event) => {

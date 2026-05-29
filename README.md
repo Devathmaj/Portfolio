@@ -1,7 +1,6 @@
 # Devathmaj A Kaliyathan - Portfolio
 
-Welcome to the source code of my personal portfolio website! This project serves as a showcase of my work in backend engineering, distributed systems, and observability, designed with a focus on smooth interactions, clean code, and a reliable user experience.
-
+Welcome to the source code of my personal portfolio website! This project serves as a showcase of my work in backend engineering, distributed systems, and observability, designed with a focus on smooth interactions, clean code, and a reliable user exp
 🌐 Live Site: https://devathmaj.github.io/Portfolio/
 
 ## 🎯 About Me
@@ -78,4 +77,3 @@ This project is based on the
 repository, originally released under the MIT License.
 
 ---
-*Built with ❤️ and a focus on observability.*

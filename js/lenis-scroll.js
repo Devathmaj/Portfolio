@@ -113,25 +113,47 @@ document.addEventListener("DOMContentLoaded", () => {
       lenis.on("scroll", ScrollTrigger.update); // Rebind ScrollTrigger update
     }
 
-    const currentScroll = clampScroll(lenis?.scroll ?? window.scrollY);
+    // Find the section closest to viewport top as an anchor.
+    // Raw pixel scroll positions break after resize because pin spacer heights change.
+    let anchorEl = null;
+    let anchorOffset = 0;
+    const sections = document.querySelectorAll("section, footer");
+    sections.forEach((section) => {
+      const rect = section.getBoundingClientRect();
+      // Pick the last section whose top is at or above viewport top
+      if (rect.top <= 50 && rect.bottom > 0) {
+        anchorEl = section;
+        anchorOffset = rect.top;
+      }
+    });
+    const fallbackScroll = clampScroll(lenis?.scroll ?? window.scrollY);
 
     clearTimeout(resizeTimer);
+    // 400ms — fires AFTER services.js / featured-work.js reinit their animations (250ms)
     resizeTimer = setTimeout(() => {
       if (typeof lenis?.resize === "function") {
         lenis.resize();
       }
 
+      ScrollTrigger.sort();
       ScrollTrigger.refresh(true);
 
       requestAnimationFrame(() => {
-        const restoredScroll = clampScroll(currentScroll);
-        if (typeof lenis?.scrollTo === "function") {
-          lenis.scrollTo(restoredScroll, { immediate: true });
+        let targetScroll;
+        if (anchorEl) {
+          // Scroll so the anchor element is at the same viewport-relative position
+          const newRect = anchorEl.getBoundingClientRect();
+          targetScroll = clampScroll(window.scrollY + newRect.top - anchorOffset);
         } else {
-          window.scrollTo(0, restoredScroll);
+          targetScroll = clampScroll(fallbackScroll);
+        }
+        if (typeof lenis?.scrollTo === "function") {
+          lenis.scrollTo(targetScroll, { immediate: true });
+        } else {
+          window.scrollTo(0, targetScroll);
         }
       });
-    }, 250);
+    }, 400);
   };
 
   // Add resize event listener to handle mobile/desktop transitions

@@ -121,6 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   let scrollTriggerInstance = null;
+  let savedScrollPosition = null;
 
   const initAnimations = () => {
     const indicatorContainer = document.querySelector(".featured-work-indicator");
@@ -363,6 +364,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     modalLink.href = project.github;
 
+    // Save current scroll position before locking body
+    savedScrollPosition = window.scrollY;
+
     modal.classList.add("active");
     modal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
@@ -373,6 +377,15 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.classList.remove("active");
     modal.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
+
+    // Restore scroll position so ScrollTrigger doesn't jump
+    if (savedScrollPosition !== null) {
+      window.scrollTo(0, savedScrollPosition);
+      requestAnimationFrame(() => {
+        window.scrollTo(0, savedScrollPosition);
+        savedScrollPosition = null;
+      });
+    }
   };
 
   if (modal) {
@@ -393,8 +406,19 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       if (!project) return;
       node.classList.add("featured-title-link");
-      node.addEventListener("click", () => openModal(project.id));
+      node.addEventListener("click", (e) => {
+        e.preventDefault();
+        openModal(project.id);
+      });
     });
+
+    // Prevent the Inspect Architecture link from jumping to page top
+    const inspectLink = document.querySelector(".featured-work-footer a[href='#']");
+    if (inspectLink) {
+      inspectLink.addEventListener("click", (e) => {
+        e.preventDefault();
+      });
+    }
   };
 
   window.addEventListener("keydown", (event) => {
@@ -407,14 +431,13 @@ document.addEventListener("DOMContentLoaded", () => {
   initAnimations();
   bindTitleClicks();
 
-  // Re-run animations on window resize to recalculate positions and trigger points
+  // Re-run animations on window resize to recalculate positions and trigger points.
+  // ScrollTrigger.refresh() is handled centrally by lenis-scroll.js after a longer delay.
   let resizeTimer;
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
       initAnimations();
-      ScrollTrigger.sort();
-      ScrollTrigger.refresh();
     }, 250);
   });
 });

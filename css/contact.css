@@ -358,7 +358,8 @@
   .contact {
     grid-template-columns: 1fr;
     gap: 2em;
-    padding: 1.5em 1em;
+    padding: 6em 1em 2em;
+    align-items: start;
   }
   
   .contact-card-header-main p {
@@ -378,8 +379,9 @@
 
 @media (max-width: 768px) {
   .contact {
-    padding: 1em;
+    padding: 6em 1em 1.5em;
     gap: 1.5em;
+    align-items: start;
   }
   
   .contact-form-container {

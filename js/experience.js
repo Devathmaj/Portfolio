@@ -63,9 +63,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 pin: true,
                 scrub: 1,
             },
+            onUpdate: function() {
+                const time = this.time();
+                if (time < 1.4) {
+                    setReveal(false, "2");
+                } else if (time < 2.8) {
+                    setReveal(true, "3");
+                } else {
+                    setReveal(true, "4");
+                }
+            }
         });
-
-        tl.add(() => setReveal(false, "2"));
         
         // PHASE 1: Reveal col-2, hide col-1
         tl.to(".col-1", { opacity: 0, scale: 0.8, duration: 0.8 })
@@ -77,9 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 duration: 0.8,
             }, "<")
             .to(".col-img-2 img", { scale: 1, duration: 0.8 }, "<");
-
-        tl.add(() => setReveal(false, "2"));
-        tl.add(() => setReveal(true, "3"));
 
         // PHASE 2: Switch col-2 -> col-3 content
         tl.to(".col-2", { opacity: 0, scale: 0.8, duration: 0.8 })
@@ -94,8 +99,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 delay: 0.4,
                 duration: 0.8,
             }, "<");
-
-        tl.add(() => setReveal(true, "4"));
 
         // PHASE 3: Switch col-3 content (wrapper-2 -> wrapper-3)
         tl.to(".col-3 .col-content-wrapper-2 .line span", {
