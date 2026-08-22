@@ -47,9 +47,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const serviceCardInners = services
       .map((service) => service.querySelector(".service-card-inner"))
       .filter(Boolean);
-    const stackExitDuration = 0.55;
+    const stackExitDuration = 2.5;
     const entryDuration = 0.6;
-    const exitHoldDuration = 4.0;
+    const exitHoldDuration = 1.25;
+    const postExitHoldDuration = 0.75;
     const scrollDistance = Math.max(
       window.innerHeight * Math.max(services.length - 0.5, 1),
       2200
@@ -95,11 +96,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     servicesTimeline.to(serviceCardInners, {
-      y: "-180vh",
+      y: "-130vh",
       opacity: 0,
       ease: "none",
       duration: stackExitDuration,
     });
+
+    if (postExitHoldDuration > 0) {
+      servicesTimeline.to({}, { duration: postExitHoldDuration });
+    }
 
     scrollTriggerInstances.push(servicesTimeline, servicesTimeline.scrollTrigger);
   };
