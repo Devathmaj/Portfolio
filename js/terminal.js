@@ -318,7 +318,6 @@ document.addEventListener("DOMContentLoaded", () => {
         appendLine("out", "email          :: devathmaj@gmail.com");
         appendLine("out", "github         :: github.com/Devathmaj");
         appendLine("out", "linkedin       :: linkedin.com/in/devathmaj");
-        appendLine("out", "phone          :: +91-9526290557");
         break;
       case "clear":
         output.innerHTML = "";

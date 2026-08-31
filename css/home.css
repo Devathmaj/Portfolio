@@ -1015,39 +1015,44 @@
   font-size: 2rem;
 }
 
-/* ── Bento Grid ────────────────────────────── */
+/* ── Orbital Ring Carousel ─────────────────── */
 
-.bento-grid {
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  grid-template-rows: minmax(50vh, 1fr) minmax(45vh, 1fr);
-  gap: 1.25em;
-  max-width: 1600px;
-  margin: 0 auto;
+.orbital-stage {
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  min-height: 640px;
+  perspective: 2000px;
+  perspective-origin: 50% 45%;
+  overflow: visible;
 }
 
-/* ── Bento Card (base) ─────────────────────── */
+.orbital-ring {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+}
 
-.bento-card {
-  position: relative;
+.orbital-card {
+  position: absolute;
+  width: clamp(600px, 62vw, 820px);
+  min-height: 480px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   border-radius: 1.5em;
-  padding: 2em;
-  transition:
-    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
-  min-height: 280px;
+  padding: 3em;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  left: 0;
+  top: 0;
+  transform-origin: center center;
 }
 
-.bento-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 48px rgba(22, 35, 44, 0.18);
-}
-
-.bento-card-text {
+.orbital-card-text {
   position: relative;
   z-index: 2;
   flex: 1;
@@ -1056,102 +1061,74 @@
   gap: 1.25em;
 }
 
-.bento-card-text h2 {
-  font-size: clamp(1.35rem, 2.5vw, 2rem);
+.orbital-card-text h2 {
+  font-size: clamp(2.2rem, 4.5vw, 3.6rem);
   letter-spacing: 0.02em;
   line-height: 1;
 }
 
-.bento-capabilities {
+.orbital-capabilities {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4em;
+  gap: 0.45em;
 }
 
-.bento-capabilities span {
+.orbital-capabilities span {
   display: inline-block;
-  padding: 0.3em 0.65em;
+  padding: 0.35em 0.75em;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   font-family: "supply-mono";
-  font-size: clamp(0.55rem, 0.85vw, 0.72rem);
+  font-size: clamp(0.6rem, 0.9vw, 0.78rem);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   white-space: nowrap;
   line-height: 1.35;
-  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
-.bento-card:hover .bento-capabilities span {
-  border-color: rgba(255, 255, 255, 0.5);
-}
-
-.bento-card-visual {
+.orbital-card-visual {
   position: absolute;
   z-index: 1;
   overflow: hidden;
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  border-radius: 1em;
 }
 
-.bento-card:hover .bento-card-visual {
-  transform: scale(1.03);
-}
-
-.bento-card-visual img {
+.orbital-card-visual img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-/* ── Backend Engineering ────────────────────── */
+/* ── Card color variants ───────────────────── */
 
-.bento-backend {
-  grid-column: 1;
-  grid-row: 1;
+.orbital-backend {
   background: linear-gradient(135deg, #1e5c68, var(--accent1));
   color: #fff;
-  min-height: 50vh;
 }
 
-.bento-backend .bento-capabilities span {
+.orbital-backend .orbital-capabilities span {
   border-color: rgba(255, 255, 255, 0.25);
 }
 
-.bento-backend:hover .bento-capabilities span {
-  border-color: rgba(255, 255, 255, 0.45);
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.bento-backend .bento-card-visual {
+.orbital-backend .orbital-card-visual {
   right: -2%;
   top: 8%;
   width: 40%;
   height: 80%;
-  border-radius: 1em;
   opacity: 0.35;
 }
 
-/* ── Systems & Networking ───────────────────── */
-
-.bento-systems {
-  grid-column: 2;
-  grid-row: 1;
+.orbital-systems {
   background: var(--fg);
   color: var(--bg);
-  min-height: 50vh;
 }
 
-.bento-systems .bento-capabilities span {
+.orbital-systems .orbital-capabilities span {
   border-color: rgba(238, 244, 247, 0.2);
 }
 
-.bento-systems:hover .bento-capabilities span {
-  border-color: rgba(238, 244, 247, 0.4);
-  background: rgba(238, 244, 247, 0.08);
-}
-
-.bento-systems .bento-card-visual {
+.orbital-systems .orbital-card-visual {
   right: 1em;
   bottom: 1em;
   width: 35%;
@@ -1160,26 +1137,16 @@
   opacity: 0.2;
 }
 
-/* ── DevOps & Infrastructure ────────────────── */
-
-.bento-devops {
-  grid-column: 1;
-  grid-row: 2;
+.orbital-devops {
   background: linear-gradient(135deg, #c75440, var(--accent2));
   color: #fff;
-  min-height: 45vh;
 }
 
-.bento-devops .bento-capabilities span {
+.orbital-devops .orbital-capabilities span {
   border-color: rgba(255, 255, 255, 0.25);
 }
 
-.bento-devops:hover .bento-capabilities span {
-  border-color: rgba(255, 255, 255, 0.45);
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.bento-devops .bento-card-visual {
+.orbital-devops .orbital-card-visual {
   right: 0;
   bottom: 0;
   width: 30%;
@@ -1188,26 +1155,16 @@
   opacity: 0.3;
 }
 
-/* ── Observability & Reliability ────────────── */
-
-.bento-observability {
-  grid-column: 2;
-  grid-row: 2;
+.orbital-observability {
   background: linear-gradient(160deg, #6ca8a2, var(--accent3));
   color: var(--fg);
-  min-height: 45vh;
 }
 
-.bento-observability .bento-capabilities span {
+.orbital-observability .orbital-capabilities span {
   border-color: rgba(22, 35, 44, 0.2);
 }
 
-.bento-observability:hover .bento-capabilities span {
-  border-color: rgba(22, 35, 44, 0.4);
-  background: rgba(22, 35, 44, 0.06);
-}
-
-.bento-observability .bento-card-visual {
+.orbital-observability .orbital-card-visual {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -1215,12 +1172,49 @@
   height: 60%;
   border-radius: 1em;
   opacity: 0.22;
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease;
 }
 
-.bento-observability:hover .bento-card-visual {
-  transform: translate(-50%, -50%) scale(1.04);
-  opacity: 0.3;
+/* ── Front card glow ───────────────────────── */
+
+.orbital-card.orbital-front::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  box-shadow: 0 0 50px rgba(127, 182, 176, 0.15);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.orbital-card.orbital-front::after {
+  opacity: 1;
+}
+
+/* ── Progress dots ─────────────────────────── */
+
+.orbital-progress {
+  position: absolute;
+  bottom: -1.5em;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5em;
+  z-index: 20;
+}
+
+.orbital-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--fg);
+  opacity: 0.2;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.orbital-dot.active {
+  opacity: 0.7;
+  transform: scale(1.3);
 }
 
 /* ── Coastal Console (preserved) ────────────── */
@@ -1345,35 +1339,20 @@
     font-size: clamp(2rem, 6vw, 3.5rem);
   }
 
-  /* Tablet: 2-column bento */
-  .bento-grid {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
-    gap: 1em;
+  .orbital-stage {
+    height: 78vh;
+    min-height: 540px;
+    perspective: 1600px;
   }
 
-  .bento-backend {
-    min-height: 320px;
+  .orbital-card {
+    width: clamp(460px, 60vw, 620px);
+    min-height: 400px;
+    padding: 2.5em;
   }
 
-  .bento-backend .bento-card-visual {
-    width: 35%;
-    height: 70%;
-  }
-
-  .bento-systems .bento-card-visual {
-    width: 30%;
-    height: 40%;
-  }
-
-  .bento-devops .bento-card-visual {
-    width: 28%;
-    height: 55%;
-  }
-
-  .bento-observability .bento-card-visual {
-    width: 65%;
-    height: 55%;
+  .orbital-card-text h2 {
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
   }
 
   .services {
@@ -1402,70 +1381,26 @@
     font-size: clamp(1.8rem, 8vw, 3rem);
   }
 
-  /* Mobile: 1-column bento, preserve hierarchy */
-  .bento-grid {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    gap: 0.85em;
+  .orbital-stage {
+    height: 68vh;
+    min-height: 480px;
+    perspective: 1200px;
   }
 
-  .bento-backend {
-    grid-column: 1;
-    grid-row: 1;
-    min-height: 40vh;
+  .orbital-card {
+    width: clamp(380px, 82vw, 500px);
+    min-height: 340px;
+    padding: 2em;
+    border-radius: 1em;
   }
 
-  .bento-observability {
-    grid-column: 1;
-    grid-row: 2;
-    min-height: 35vh;
-  }
-
-  .bento-devops {
-    grid-column: 1;
-    grid-row: 3;
-    min-height: 35vh;
-  }
-
-  .bento-systems {
-    grid-column: 1;
-    grid-row: 4;
-    min-height: 35vh;
-  }
-
-  .bento-card {
-    padding: 1.5em;
-    min-height: auto;
-  }
-
-  .bento-card-text h2 {
+  .orbital-card-text h2 {
     font-size: clamp(1.2rem, 5vw, 1.6rem);
   }
 
-  .bento-capabilities span {
-    font-size: 0.6rem;
-    padding: 0.25em 0.55em;
-  }
-
-  .bento-backend .bento-card-visual {
-    width: 40%;
-    height: 65%;
-    opacity: 0.25;
-  }
-
-  .bento-systems .bento-card-visual {
-    width: 35%;
-    height: 40%;
-  }
-
-  .bento-devops .bento-card-visual {
-    width: 30%;
-    height: 50%;
-  }
-
-  .bento-observability .bento-card-visual {
-    width: 60%;
-    height: 50%;
+  .orbital-capabilities span {
+    font-size: 0.55rem;
+    padding: 0.25em 0.5em;
   }
 
   .services .service-card-inner {
@@ -1484,22 +1419,27 @@
   .platform-title h1 {
     font-size: clamp(3.5rem, 7vw, 6rem);
   }
+
+  .orbital-stage {
+    height: 92vh;
+    min-height: 680px;
+    perspective: 2200px;
+  }
+
+  .orbital-card {
+    width: clamp(660px, 60vw, 880px);
+    min-height: 540px;
+  }
 }
 
 /* ── Accessibility: reduced motion ──────────── */
 
 @media (prefers-reduced-motion: reduce) {
-  .bento-card,
-  .bento-card-visual,
-  .bento-observability .bento-card-visual {
+  .orbital-card {
     transition: none !important;
   }
 
-  .bento-card:hover {
-    transform: none;
-  }
-
-  .bento-card:hover .bento-card-visual {
-    transform: none;
+  .orbital-dot {
+    transition: none !important;
   }
 }

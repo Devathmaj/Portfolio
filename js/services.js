@@ -1,4 +1,4 @@
-// services.js — Bento grid scroll-reveal animations
+// services.js — Orbital ring carousel (scroll-driven)
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -9,125 +9,256 @@ document.addEventListener("DOMContentLoaded", () => {
 
   gsap.registerPlugin(ScrollTrigger);
 
-  let scrollTriggerInstances = [];
+  const TOTAL = 4;
+  const STEP_DEG = 360 / TOTAL;
+  const SCROLL_PER_CARD = 100;
 
-  const cleanupInstances = () => {
-    scrollTriggerInstances.forEach((st) => {
-      if (st && st.kill) st.kill(true);
+  let currentIndex = 0;
+  let currentAngle = 0;
+  let scrollTriggerInstance = null;
+  let touchStartY = 0;
+
+  const section = document.querySelector(".platform-section");
+  const stage = document.querySelector(".orbital-stage");
+  const ring = document.querySelector(".orbital-ring");
+  const cards = gsap.utils.toArray(".orbital-card");
+  const dots = gsap.utils.toArray(".orbital-dot");
+
+  if (!section || !stage || !ring || !cards.length) return;
+
+  // ── Reduced motion: static layout ──
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const stageW = stage.offsetWidth;
+    const cardW = parseFloat(getComputedStyle(cards[0]).width);
+    const radius = Math.min(stageW * 0.42, 520);
+
+    cards.forEach((card, i) => {
+      const angle = (i * STEP_DEG - 90) * (Math.PI / 180);
+      const x = Math.cos(angle) * radius - cardW / 2;
+      const y = Math.sin(angle) * radius * 0.35 - 30;
+      const dist = Math.abs(Math.round(Math.cos(angle) * 100));
+      const s = 1;
+      const o = i === 0 ? 1 : 0.5 + (dist / 100) * 0.35;
+      const z = i === 0 ? 5 : 5 - dist / 20;
+
+      gsap.set(card, { x, y, scale: s, opacity: o, z });
+      card.classList.toggle("orbital-front", i === 0);
     });
-    scrollTriggerInstances = [];
-  };
+    return;
+  }
 
-  const initAnimations = () => {
-    const platformSection = document.querySelector(".platform-section");
-    const bentoCards = gsap.utils.toArray(".bento-card");
-    const platformHeader = document.querySelector(".platform-header");
+  // ── Orbital geometry ──
+  function getRadius() {
+    const stageW = stage.offsetWidth;
+    return Math.min(stageW * 0.42, 540);
+  }
 
-    if (!platformSection || !bentoCards.length) return;
+  function getCardWidth() {
+    return parseFloat(getComputedStyle(cards[0]).width);
+  }
 
-    // Skip animations on small screens or reduced motion
-    if (
-      window.innerWidth <= 1000 ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) {
-      cleanupInstances();
-      gsap.set(bentoCards, { clearProps: "all" });
-      if (platformHeader) gsap.set(platformHeader, { clearProps: "all" });
-      return;
+  function orbitPosition(cardIndex, angle) {
+    const cardAngle = (cardIndex * STEP_DEG + angle - 90) * (Math.PI / 180);
+    const radius = getRadius();
+    const cardW = getCardWidth();
+
+    const cosA = Math.cos(cardAngle);
+    const sinA = Math.sin(cardAngle);
+
+    const x = cosA * radius - cardW / 2;
+    const y = sinA * radius * 0.35 - 30;
+    const dist = Math.abs(Math.round(cosA * 100));
+    const normalizedDist = dist / 100;
+
+    const frontIdx = ((-Math.round(angle / STEP_DEG) % TOTAL) + TOTAL) % TOTAL;
+    const isFront = cardIndex === frontIdx;
+
+    const s = 1;
+    const o = isFront ? 1 : 0.45 + normalizedDist * 0.4;
+    const z = isFront ? 5 : 5 - dist / 25;
+
+    return { x, y, s, o, z };
+  }
+
+  function applyPosition(card, pos) {
+    gsap.set(card, {
+      x: pos.x,
+      y: pos.y,
+      scale: pos.s,
+      opacity: pos.o,
+      z: pos.z,
+    });
+  }
+
+  function updateFrontClass(angle) {
+    const frontIdx = ((-Math.round(angle / STEP_DEG) % TOTAL) + TOTAL) % TOTAL;
+    cards.forEach((card, i) => {
+      card.classList.toggle("orbital-front", i === frontIdx);
+    });
+    return frontIdx;
+  }
+
+  function updateDots(idx) {
+    dots.forEach((dot, i) => {
+      dot.classList.toggle("active", i === idx);
+    });
+  }
+
+  function positionAll(angle) {
+    cards.forEach((card, i) => {
+      const pos = orbitPosition(i, angle);
+      applyPosition(card, pos);
+    });
+    const frontIdx = updateFrontClass(angle);
+    updateDots(frontIdx);
+    currentIndex = frontIdx;
+  }
+
+  // ── Scroll-driven rotation (desktop) ──
+  function initDesktop() {
+    if (scrollTriggerInstance) {
+      scrollTriggerInstance.kill(true);
+      scrollTriggerInstance = null;
     }
 
-    cleanupInstances();
-    gsap.set(bentoCards, { clearProps: "all" });
-    if (platformHeader) gsap.set(platformHeader, { clearProps: "all" });
+    const proxy = { angle: 0 };
 
-    // Set initial states for scroll-reveal
-    gsap.set(platformHeader, {
-      opacity: 0,
-      y: 40,
-    });
+    scrollTriggerInstance = ScrollTrigger.create({
+      trigger: stage,
+      start: "top top",
+      end: `+=${(TOTAL - 1) * SCROLL_PER_CARD}%`,
+      pin: true,
+      scrub: 0.6,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      onUpdate(self) {
+        const targetAngle = self.progress * (TOTAL - 1) * STEP_DEG;
+        proxy.angle = targetAngle;
 
-    gsap.set(bentoCards, {
-      opacity: 0,
-      y: 60,
-      scale: 0.97,
-    });
-
-    // Header entrance
-    const headerTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: platformSection,
-        start: "top 85%",
-        end: "top 50%",
-        scrub: 0.8,
-        invalidateOnRefresh: true,
+        cards.forEach((card, i) => {
+          const pos = orbitPosition(i, targetAngle);
+          applyPosition(card, pos);
+        });
+        const frontIdx = updateFrontClass(targetAngle);
+        updateDots(frontIdx);
+        currentIndex = frontIdx;
+        currentAngle = targetAngle;
       },
     });
+  }
 
-    headerTl.to(platformHeader, {
-      opacity: 1,
-      y: 0,
-      ease: "power2.out",
-      duration: 1,
-    });
+  // ── Touch swipe (mobile) ──
+  function onTouchStart(e) {
+    touchStartY = e.touches[0].clientY;
+  }
 
-    scrollTriggerInstances.push(headerTl.scrollTrigger);
+  function onTouchEnd(e) {
+    const dy = touchStartY - e.changedTouches[0].clientY;
+    if (Math.abs(dy) > 50) {
+      const dir = dy > 0 ? 1 : -1;
+      const nextIdx = ((currentIndex + dir) % TOTAL + TOTAL) % TOTAL;
+      const targetAngle = nextIdx * STEP_DEG;
 
-    // Bento card staggered reveal
-    const cardOrder = [".bento-backend", ".bento-systems", ".bento-devops", ".bento-observability"];
-    const orderedCards = cardOrder
-      .map((sel) => platformSection.querySelector(sel))
-      .filter(Boolean);
-
-    orderedCards.forEach((card, index) => {
-      const isObservability = card.classList.contains("bento-observability");
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: card,
-          start: "top 90%",
-          end: "top 55%",
-          scrub: 0.6,
-          invalidateOnRefresh: true,
+      gsap.to({ angle: currentAngle }, {
+        angle: targetAngle,
+        duration: 0.7,
+        ease: "power3.out",
+        onUpdate() {
+          const a = this.targets()[0].angle;
+          cards.forEach((card, i) => {
+            const pos = orbitPosition(i, a);
+            applyPosition(card, pos);
+          });
+          const frontIdx = updateFrontClass(a);
+          updateDots(frontIdx);
+        },
+        onComplete() {
+          currentAngle = targetAngle;
+          currentIndex = nextIdx;
         },
       });
+    }
+  }
 
-      tl.to(card, {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        ease: "power2.out",
-        duration: 1,
+  function initMobile() {
+    if (scrollTriggerInstance) {
+      scrollTriggerInstance.kill(true);
+      scrollTriggerInstance = null;
+    }
+
+    stage.addEventListener("touchstart", onTouchStart, { passive: true });
+    stage.addEventListener("touchend", onTouchEnd, { passive: true });
+  }
+
+  // ── Keyboard ──
+  function onKeyDown(e) {
+    if (window.innerWidth <= 1000) return;
+
+    if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+      e.preventDefault();
+      const nextIdx = ((currentIndex + 1) % TOTAL + TOTAL) % TOTAL;
+      const targetAngle = nextIdx * STEP_DEG;
+
+      gsap.to({ angle: currentAngle }, {
+        angle: targetAngle,
+        duration: 0.7,
+        ease: "power3.out",
+        onUpdate() {
+          const a = this.targets()[0].angle;
+          cards.forEach((card, i) => {
+            const pos = orbitPosition(i, a);
+            applyPosition(card, pos);
+          });
+          const frontIdx = updateFrontClass(a);
+          updateDots(frontIdx);
+        },
+        onComplete() {
+          currentAngle = targetAngle;
+          currentIndex = nextIdx;
+        },
       });
+    } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+      e.preventDefault();
+      const prevIdx = ((currentIndex - 1) % TOTAL + TOTAL) % TOTAL;
+      const targetAngle = prevIdx * STEP_DEG;
 
-      // Observability card gets a subtle continuous pulse
-      if (isObservability) {
-        const pulseTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: card,
-            start: "top 60%",
-            toggleActions: "play none none none",
-          },
-        });
+      gsap.to({ angle: currentAngle }, {
+        angle: targetAngle,
+        duration: 0.7,
+        ease: "power3.out",
+        onUpdate() {
+          const a = this.targets()[0].angle;
+          cards.forEach((card, i) => {
+            const pos = orbitPosition(i, a);
+            applyPosition(card, pos);
+          });
+          const frontIdx = updateFrontClass(a);
+          updateDots(frontIdx);
+        },
+        onComplete() {
+          currentAngle = targetAngle;
+          currentIndex = prevIdx;
+        },
+      });
+    }
+  }
 
-        pulseTl.to(card, {
-          boxShadow: "0 0 0 1px rgba(127, 182, 176, 0.2), 0 8px 32px rgba(127, 182, 176, 0.12)",
-          duration: 1.5,
-          ease: "sine.inOut",
-          yoyo: true,
-          repeat: -1,
-        });
+  // ── Init ──
+  function init() {
+    positionAll(currentAngle);
 
-        scrollTriggerInstances.push(pulseTl.scrollTrigger);
-      }
+    if (window.innerWidth > 1000) {
+      initDesktop();
+    } else {
+      initMobile();
+    }
 
-      scrollTriggerInstances.push(tl.scrollTrigger);
-    });
-  };
+    window.addEventListener("keydown", onKeyDown);
+  }
 
-  initAnimations();
+  init();
 
   window.addEventListener("load", () => {
-    initAnimations();
     ScrollTrigger.sort();
     ScrollTrigger.refresh();
   });
@@ -136,7 +267,10 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
-      initAnimations();
+      stage.removeEventListener("touchstart", onTouchStart);
+      stage.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("keydown", onKeyDown);
+      init();
     }, 250);
   });
 });
