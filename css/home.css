@@ -1054,6 +1054,13 @@
   transform-origin: center center;
 }
 
+.orbital-card-visual-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
 .orbital-card-text {
   position: relative;
   z-index: 2;
@@ -1089,10 +1096,9 @@
 }
 
 .orbital-card-visual {
-  position: absolute;
+  position: relative;
   z-index: 1;
   overflow: hidden;
-  border-radius: 1em;
 }
 
 .orbital-card-visual img {
@@ -1113,12 +1119,18 @@
   border-color: rgba(255, 255, 255, 0.25);
 }
 
+.orbital-backend .orbital-card-visual-wrap {
+  left: 8%;
+  right: 8%;
+  bottom: 0;
+  top: auto;
+  width: 84%;
+  height: 40%;
+  border-radius: 1em 1em 0 0;
+}
+
 .orbital-backend .orbital-card-visual {
-  right: -2%;
-  top: 8%;
-  width: 40%;
-  height: 80%;
-  opacity: 0.35;
+  opacity: 1;
 }
 
 .orbital-systems {
@@ -1130,13 +1142,18 @@
   border-color: rgba(238, 244, 247, 0.2);
 }
 
+.orbital-systems .orbital-card-visual-wrap {
+  left: 8%;
+  right: 8%;
+  bottom: 0;
+  top: auto;
+  width: 84%;
+  height: 40%;
+  border-radius: 1em 1em 0 0;
+}
+
 .orbital-systems .orbital-card-visual {
-  right: 1em;
-  bottom: 1em;
-  width: 35%;
-  height: 45%;
-  border-radius: 0.75em;
-  opacity: 0.2;
+  opacity: 1;
 }
 
 .orbital-devops {
@@ -1148,13 +1165,18 @@
   border-color: rgba(255, 255, 255, 0.25);
 }
 
-.orbital-devops .orbital-card-visual {
-  right: 0;
+.orbital-devops .orbital-card-visual-wrap {
+  left: 8%;
+  right: 8%;
   bottom: 0;
-  width: 30%;
-  height: 60%;
-  border-radius: 1.5em 0 1.5em 0;
-  opacity: 0.3;
+  top: auto;
+  width: 84%;
+  height: 40%;
+  border-radius: 1em 1em 0 0;
+}
+
+.orbital-devops .orbital-card-visual {
+  opacity: 1;
 }
 
 .orbital-observability {
@@ -1166,14 +1188,19 @@
   border-color: rgba(22, 35, 44, 0.2);
 }
 
+.orbital-observability .orbital-card-visual-wrap {
+  left: 8%;
+  right: 8%;
+  bottom: 0;
+  top: auto;
+  width: 84%;
+  height: 40%;
+  transform: none;
+  border-radius: 1em 1em 0 0;
+}
+
 .orbital-observability .orbital-card-visual {
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 72%;
-  height: 60%;
-  border-radius: 1em;
-  opacity: 0.22;
+  opacity: 1;
 }
 
 /* ── Front card glow ───────────────────────── */
