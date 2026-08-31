@@ -38,7 +38,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const y = Math.sin(angle) * radius * 0.35 - 30;
       const dist = Math.abs(Math.round(Math.cos(angle) * 100));
       const s = 1;
-      const o = i === 0 ? 1 : 0.5 + (dist / 100) * 0.35;
+      const isBack = i === 2;
+      const o = (i === 0 || isBack) ? 1 : 0.5 + (dist / 100) * 0.35;
       const z = i === 0 ? 5 : 5 - dist / 20;
 
       gsap.set(card, { x, y, scale: s, opacity: o, z });
@@ -71,11 +72,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const normalizedDist = dist / 100;
 
     const frontIdx = ((-Math.round(angle / STEP_DEG) % TOTAL) + TOTAL) % TOTAL;
+    const backIdx = (frontIdx + TOTAL / 2) % TOTAL;
     const isFront = cardIndex === frontIdx;
+    const isBack = cardIndex === backIdx;
 
     const s = 1;
-    const o = isFront ? 1 : 0.45 + normalizedDist * 0.4;
-    const z = isFront ? 5 : 5 - dist / 25;
+    const o = (isFront || isBack) ? 1 : 0.45 + normalizedDist * 0.4;
+    const z = isFront ? 5 : isBack ? 3 : 5 - dist / 25;
 
     return { x, y, s, o, z };
   }
@@ -123,17 +126,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const proxy = { angle: 0 };
 
+    // Set exact initial state
+    positionAll(0);
+
     scrollTriggerInstance = ScrollTrigger.create({
       trigger: stage,
       start: "top top",
       end: `+=${(TOTAL - 1) * SCROLL_PER_CARD}%`,
       pin: true,
-      scrub: 0.6,
+      scrub: 0.3,
+      fastScrollEnd: true,
       anticipatePin: 1,
       invalidateOnRefresh: true,
       onUpdate(self) {
         const targetAngle = self.progress * (TOTAL - 1) * STEP_DEG;
-        proxy.angle = targetAngle;
 
         cards.forEach((card, i) => {
           const pos = orbitPosition(i, targetAngle);
