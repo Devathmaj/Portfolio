@@ -331,17 +331,82 @@
 
 
 
-    <!-- home - services header -->
-    <section class="services-header">
-      <div class="services-header-content">
-        <p>Production systems. Observability-first.</p>
-        <div class="services-header-title">
+    <!-- home - platform engineering bento -->
+    <section class="platform-section">
+      <header class="platform-header">
+        <p class="platform-eyebrow">Production systems. Observability-first.</p>
+        <div class="platform-title">
           <h1>Platform Engineering</h1>
           <h1>& Reliability Systems</h1>
         </div>
-        <div class="services-header-arrow-icon">
+        <div class="platform-arrow">
           <h1>&#8595;</h1>
         </div>
+      </header>
+
+      <div class="bento-grid">
+        <!-- Backend Engineering -->
+        <article class="bento-card bento-backend" id="service-card-1">
+          <div class="bento-card-text">
+            <h2>Backend Engineering</h2>
+            <div class="bento-capabilities">
+              <span>FastAPI</span><span>Flask</span><span>Node.js</span>
+              <span>REST APIs</span><span>WebSockets</span>
+              <span>PostgreSQL</span><span>Redis</span><span>RBAC</span>
+            </div>
+          </div>
+          <div class="bento-card-visual">
+            <img src="./images/services/service-1.png" alt="Backend Engineering" loading="lazy" />
+          </div>
+        </article>
+
+        <!-- Systems & Networking -->
+        <article class="bento-card bento-systems" id="service-card-4">
+          <div class="bento-card-text">
+            <h2>Systems &amp; Networking</h2>
+            <div class="bento-capabilities">
+              <span>Distributed systems</span><span>Network telemetry</span>
+              <span>Storage systems</span><span>SSH automation</span>
+              <span>DNS management</span><span>Leader election</span>
+              <span>Multi-node architectures</span><span>OS-level systems work</span>
+            </div>
+          </div>
+          <div class="bento-card-visual">
+            <img src="./images/services/service-4.png" alt="Systems &amp; Networking" loading="lazy" />
+          </div>
+        </article>
+
+        <!-- DevOps & Infrastructure -->
+        <article class="bento-card bento-devops" id="service-card-2">
+          <div class="bento-card-text">
+            <h2>DevOps &amp; Infrastructure</h2>
+            <div class="bento-capabilities">
+              <span>Docker</span><span>Kubernetes</span><span>Terraform</span>
+              <span>Linux</span><span>Nginx</span><span>Azure</span>
+              <span>Cloud-init</span><span>Buildroot</span>
+              <span>Infrastructure automation</span>
+            </div>
+          </div>
+          <div class="bento-card-visual">
+            <img src="./images/services/service-2.png" alt="DevOps &amp; Infrastructure" loading="lazy" />
+          </div>
+        </article>
+
+        <!-- Observability & Reliability -->
+        <article class="bento-card bento-observability" id="service-card-3">
+          <div class="bento-card-text">
+            <h2>Observability &amp; Reliability</h2>
+            <div class="bento-capabilities">
+              <span>Prometheus</span><span>Grafana</span><span>Loki</span>
+              <span>Tempo</span><span>OpenTelemetry</span><span>Alertmanager</span>
+              <span>Distributed tracing</span><span>Telemetry pipelines</span>
+              <span>SLIs/SLOs</span>
+            </div>
+          </div>
+          <div class="bento-card-visual">
+            <img src="./images/services/service-3.png" alt="Observability &amp; Reliability" loading="lazy" />
+          </div>
+        </article>
       </div>
     </section>
 
@@ -354,91 +419,8 @@
 
 
 
-
-    <!-- home - services/skills section -->
+    <!-- home - coastal console (untouched) -->
     <section class="services">
-      <div class="service-card" id="service-card-1">
-        <div class="service-card-inner">
-          <div class="service-card-content">
-            <h1>Backend Engineering</h1>
-            <ul class="service-list">
-              <li>FastAPI</li>
-              <li>Flask</li>
-              <li>Node.js</li>
-              <li>REST APIs</li>
-              <li>WebSockets</li>
-              <li>PostgreSQL</li>
-              <li>Redis</li>
-              <li>RBAC</li>
-            </ul>
-          </div>
-          <div class="service-card-img">
-            <img src="./images/services/service-1.png" alt="Backend Engineering" />
-          </div>
-        </div>
-      </div>
-      <div class="service-card" id="service-card-2">
-        <div class="service-card-inner">
-          <div class="service-card-content">
-            <h1>DevOps & Infrastructure</h1>
-            <ul class="service-list">
-              <li>Docker</li>
-              <li>Kubernetes</li>
-              <li>Terraform</li>
-              <li>Linux</li>
-              <li>Nginx</li>
-              <li>Azure</li>
-              <li>Cloud-init</li>
-              <li>Buildroot</li>
-              <li>Infrastructure automation</li>
-            </ul>
-          </div>
-          <div class="service-card-img">
-            <img src="./images/services/service-2.png" alt="DevOps & Infrastructure" />
-          </div>
-        </div>
-      </div>
-      <div class="service-card" id="service-card-3">
-        <div class="service-card-inner">
-          <div class="service-card-content">
-            <h1>Observability & Reliability</h1>
-            <ul class="service-list">
-              <li>Prometheus</li>
-              <li>Grafana</li>
-              <li>Loki</li>
-              <li>Tempo</li>
-              <li>OpenTelemetry</li>
-              <li>Alertmanager</li>
-              <li>Distributed tracing</li>
-              <li>Telemetry pipelines</li>
-              <li>SLIs/SLOs</li>
-            </ul>
-          </div>
-          <div class="service-card-img">
-            <img src="./images/services/service-3.png " alt="Observability & Reliability" />
-          </div>
-        </div>
-      </div>
-      <div class="service-card" id="service-card-4">
-        <div class="service-card-inner">
-          <div class="service-card-content">
-            <h1>Systems & Networking</h1>
-            <ul class="service-list">
-              <li>Distributed systems</li>
-              <li>Network telemetry</li>
-              <li>Storage systems</li>
-              <li>SSH automation</li>
-              <li>DNS management</li>
-              <li>Leader election</li>
-              <li>Multi-node architectures</li>
-              <li>OS-level systems work</li>
-            </ul>
-          </div>
-          <div class="service-card-img">
-            <img src="./images/services/service-4.png" alt="Systems & Networking" />
-          </div>
-        </div>
-      </div>
       <div class="service-card" id="service-card-5">
         <div class="service-card-inner">
           <section class="terminal-section" id="terminal">
