@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
             scrollTrigger: {
                 trigger: ".sticky-cols",
                 start: "top top",
-                end: "+=350%",
+                end: "+=500%",
                 pin: true,
                 scrub: 1,
             },
