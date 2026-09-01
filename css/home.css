@@ -1438,8 +1438,15 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    border-radius: 1em;
+    border-radius: 0.5em;
     padding: 2em;
+    box-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.1),
+      0 8px 16px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transform: perspective(600px) rotateX(1deg);
+    transform-origin: center top;
   }
 
   .mobile-card .orbital-card-text {
@@ -1463,7 +1470,7 @@
     top: 0;
     bottom: auto;
     margin-top: 1.5em;
-    border-radius: 0.75em;
+    border-radius: 0.35em;
     overflow: hidden;
   }
 
