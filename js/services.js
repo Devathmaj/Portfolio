@@ -37,14 +37,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const cosA = Math.cos(angle);
       const sinA = Math.sin(angle);
       const x = cosA * radius - cardW / 2;
-      const y = sinA * radius * 0.35 - 30;
+    const y = sinA * radius * 0.3 - 60;
       const yNorm = (1 - sinA) / 2;
-      const s = 0.88 + yNorm * 0.17;
-      const z = (yNorm - 0.5) * 240;
-      const o = yNorm > 0.7 ? 1 : 0.55 + yNorm * 0.45;
+      const s = 0.8 + yNorm * 0.28;
+      const z = (yNorm - 0.5) * 360;
+      const o = yNorm > 0.7 ? 1 : 0.45 + yNorm * 0.55;
       const zIndex = Math.round(yNorm * 100);
-      const rotateY = -cosA * 25;
-      const rotateX = sinA * 4;
+      const rotateY = -cosA * 35;
+      const rotateX = 0;
 
       gsap.set(card, { x, y, scale: s, opacity: o, z, zIndex, rotateY, rotateX });
     });
@@ -71,28 +71,28 @@ document.addEventListener("DOMContentLoaded", () => {
     const sinA = Math.sin(cardAngle);
 
     const x = cosA * radius - cardW / 2;
-    const y = sinA * radius * 0.35 - 30;
+      const y = sinA * radius * 0.3 - 60;
 
     // Vertical position: sinA = -1 at top, 1 at bottom
     const yNorm = (1 - sinA) / 2; // 1 at top, 0 at bottom
 
-    // Scale: top cards larger, bottom smaller
-    const s = 0.88 + yNorm * 0.17;
+    // Scale: top cards much larger, bottom smaller
+    const s = 0.8 + yNorm * 0.28;
 
-    // Z translation: top cards forward, bottom cards back
-    const z = (yNorm - 0.5) * 240;
+    // Z translation: strong depth separation
+    const z = (yNorm - 0.5) * 360;
 
     // Opacity: top fully opaque, bottom faded
-    const o = yNorm > 0.7 ? 1 : 0.55 + yNorm * 0.45;
+    const o = yNorm > 0.7 ? 1 : 0.45 + yNorm * 0.55;
 
     // Z-index: top cards on top
     const zIndex = Math.round(yNorm * 100);
 
-    // rotateY: cards face outward from ring center
-    const rotateY = -cosA * 25;
+    // rotateY: stronger face-outward rotation
+    const rotateY = -cosA * 35;
 
-    // Subtle rotateX for tilt effect
-    const rotateX = sinA * 4;
+    // rotateX: no tilt
+    const rotateX = 0;
 
     return { x, y, s, o, z, zIndex, rotateY, rotateX };
   }
