@@ -34,17 +34,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     cards.forEach((card, i) => {
       const angle = (i * STEP_DEG - 90) * (Math.PI / 180);
-      const x = Math.cos(angle) * radius - cardW / 2;
-      const y = Math.sin(angle) * radius * 0.35 - 30;
-      const dist = Math.abs(Math.round(Math.cos(angle) * 100));
-      const s = 1;
-      const isBack = i === 2;
-      const o = (i === 0 || isBack) ? 1 : 0.5 + (dist / 100) * 0.35;
-      const z = i === 0 ? 5 : 5 - dist / 20;
+      const cosA = Math.cos(angle);
+      const sinA = Math.sin(angle);
+      const x = cosA * radius - cardW / 2;
+      const y = sinA * radius * 0.35 - 30;
+      const yNorm = (1 - sinA) / 2;
+      const s = 0.88 + yNorm * 0.17;
+      const z = (yNorm - 0.5) * 240;
+      const o = yNorm > 0.7 ? 1 : 0.55 + yNorm * 0.45;
+      const zIndex = Math.round(yNorm * 100);
+      const rotateY = -cosA * 25;
+      const rotateX = sinA * 4;
 
-      gsap.set(card, { x, y, scale: s, opacity: o, z });
-      card.classList.toggle("orbital-front", i === 0);
+      gsap.set(card, { x, y, scale: s, opacity: o, z, zIndex, rotateY, rotateX });
     });
+    updateFrontClass(0);
     return;
   }
 
@@ -68,19 +72,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const x = cosA * radius - cardW / 2;
     const y = sinA * radius * 0.35 - 30;
-    const dist = Math.abs(Math.round(cosA * 100));
-    const normalizedDist = dist / 100;
 
-    const frontIdx = ((-Math.round(angle / STEP_DEG) % TOTAL) + TOTAL) % TOTAL;
-    const backIdx = (frontIdx + TOTAL / 2) % TOTAL;
-    const isFront = cardIndex === frontIdx;
-    const isBack = cardIndex === backIdx;
+    // Vertical position: sinA = -1 at top, 1 at bottom
+    const yNorm = (1 - sinA) / 2; // 1 at top, 0 at bottom
 
-    const s = 1;
-    const o = (isFront || isBack) ? 1 : 0.45 + normalizedDist * 0.4;
-    const z = isFront ? 5 : isBack ? 3 : 5 - dist / 25;
+    // Scale: top cards larger, bottom smaller
+    const s = 0.88 + yNorm * 0.17;
 
-    return { x, y, s, o, z };
+    // Z translation: top cards forward, bottom cards back
+    const z = (yNorm - 0.5) * 240;
+
+    // Opacity: top fully opaque, bottom faded
+    const o = yNorm > 0.7 ? 1 : 0.55 + yNorm * 0.45;
+
+    // Z-index: top cards on top
+    const zIndex = Math.round(yNorm * 100);
+
+    // rotateY: cards face outward from ring center
+    const rotateY = -cosA * 25;
+
+    // Subtle rotateX for tilt effect
+    const rotateX = sinA * 4;
+
+    return { x, y, s, o, z, zIndex, rotateY, rotateX };
   }
 
   function applyPosition(card, pos) {
@@ -90,11 +104,25 @@ document.addEventListener("DOMContentLoaded", () => {
       scale: pos.s,
       opacity: pos.o,
       z: pos.z,
+      zIndex: pos.zIndex,
+      rotateY: pos.rotateY,
+      rotateX: pos.rotateX,
+      overwrite: "auto",
     });
   }
 
   function updateFrontClass(angle) {
-    const frontIdx = ((-Math.round(angle / STEP_DEG) % TOTAL) + TOTAL) % TOTAL;
+    // Find which card is highest (top of ring)
+    let minY = Infinity;
+    let frontIdx = 0;
+    cards.forEach((card, i) => {
+      const cardAngle = (i * STEP_DEG + angle - 90) * (Math.PI / 180);
+      const sinA = Math.sin(cardAngle);
+      if (sinA < minY) {
+        minY = sinA;
+        frontIdx = i;
+      }
+    });
     cards.forEach((card, i) => {
       card.classList.toggle("orbital-front", i === frontIdx);
     });

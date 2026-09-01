@@ -1024,7 +1024,7 @@
   width: 100%;
   height: 90vh;
   min-height: 640px;
-  perspective: 2000px;
+  perspective: 1200px;
   perspective-origin: 50% 45%;
   overflow: visible;
 }
@@ -1048,7 +1048,7 @@
   border-radius: 1.5em;
   padding: 3em;
   will-change: transform, opacity;
-  backface-visibility: hidden;
+  transform-style: preserve-3d;
   left: 0;
   top: 0;
   transform-origin: center center;
@@ -1371,7 +1371,7 @@
   .orbital-stage {
     height: 78vh;
     min-height: 540px;
-    perspective: 1600px;
+    perspective: 1000px;
   }
 
   .orbital-card {
@@ -1413,7 +1413,7 @@
   .orbital-stage {
     height: 68vh;
     min-height: 480px;
-    perspective: 1200px;
+    perspective: 900px;
   }
 
   .orbital-card {
@@ -1452,7 +1452,7 @@
   .orbital-stage {
     height: 92vh;
     min-height: 680px;
-    perspective: 2200px;
+    perspective: 1100px;
   }
 
   .orbital-card {
