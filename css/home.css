@@ -1220,6 +1220,12 @@
   opacity: 1;
 }
 
+/* ── Mobile cards (hidden by default) ──────── */
+
+.mobile-cards {
+  display: none;
+}
+
 /* ── Progress dots ─────────────────────────── */
 
 .orbital-progress {
@@ -1410,21 +1416,59 @@
     font-size: clamp(1.4rem, 6vw, 2.4rem);
   }
 
-  .orbital-stage {
-    height: 68vh;
-    min-height: 480px;
-    perspective: 900px;
+  .platform-arrow {
+    display: none;
   }
 
-  .orbital-card {
-    width: clamp(380px, 82vw, 500px);
-    min-height: 340px;
-    padding: 2em;
+  .orbital-stage,
+  .orbital-progress {
+    display: none;
+  }
+
+  .mobile-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+  }
+
+  .mobile-card {
+    position: relative;
+    width: 100%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
     border-radius: 1em;
+    padding: 2em;
   }
 
-  .orbital-card-text h2 {
+  .mobile-card .orbital-card-text {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
+
+  .mobile-card .orbital-card-text h2 {
     font-size: clamp(1.2rem, 5vw, 1.6rem);
+  }
+
+  .mobile-card .orbital-card-visual-wrap {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: auto;
+    margin-top: 1.5em;
+    border-radius: 0.75em;
+    overflow: hidden;
+  }
+
+  .mobile-card .orbital-card-visual {
+    opacity: 1;
   }
 
   .orbital-capabilities span {
