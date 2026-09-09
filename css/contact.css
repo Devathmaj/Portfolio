@@ -308,6 +308,21 @@
   transform: translateY(0);
 }
 
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  opacity: 0;
+  height: 0;
+  width: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.cf-turnstile {
+  margin-top: 0.5em;
+}
+
 .floating-elements {
   position: absolute;
   top: 0;

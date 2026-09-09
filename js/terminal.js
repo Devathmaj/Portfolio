@@ -2,6 +2,54 @@
 
 const PROJECTS = [
   {
+    id: "voucherbot",
+    name: "VoucherBot",
+    status: "stable",
+    summary:
+      "AI-powered certification voucher aggregator that monitors sources, filters opportunities, and delivers instant alerts.",
+    stack: [
+      "Python 3.11+",
+      "Groq",
+      "Google Gemini",
+      "Supabase",
+      "Reddit API",
+      "Resend",
+      "Render",
+      "Discord",
+      "Telegram",
+    ],
+    highlights: [
+      "AI-assisted voucher detection with Groq and Gemini fallback",
+      "Reddit API for continuous certification post monitoring",
+      "Supabase storage with duplicate detection",
+      "Discord and Telegram notification bots",
+    ],
+  },
+  {
+    id: "football",
+    name: "Football Market Intelligence",
+    status: "active",
+    summary:
+      "Football prediction and market intelligence platform combining ML models, live data, and Monte Carlo simulations.",
+    stack: [
+      "Next.js",
+      "FastAPI",
+      "Python",
+      "XGBoost",
+      "Logistic Regression",
+      "PostgreSQL",
+      "Docker",
+      "API-Football",
+      "Monte Carlo Simulation",
+    ],
+    highlights: [
+      "XGBoost and Logistic Regression match outcome models",
+      "Monte Carlo tournament simulation for market analysis",
+      "Feature engineering with Elo ratings and squad data",
+      "Containerized architecture with Docker Compose",
+    ],
+  },
+  {
     id: "continumm",
     name: "Continumm",
     status: "stable",
@@ -27,67 +75,26 @@ const PROJECTS = [
     ],
   },
   {
-    id: "storageos",
-    name: "Storage-OS",
-    status: "active",
-    summary:
-      "Distributed storage system with a custom Buildroot OS and multi-node controller.",
-    stack: [
-      "Go",
-      "C",
-      "TypeScript",
-      "React",
-      "Buildroot",
-      "mTLS",
-      "QEMU",
-      "SQLite",
-      "AES-256-GCM",
-      "ZSTD",
-    ],
-    highlights: [
-      "Custom Buildroot OS with storage daemon and CLI",
-      "Encrypted sharding with compression and LRU cache",
-      "mTLS enrollment with RBAC and JWT auth",
-    ],
-  },
-  {
     id: "confessit",
-    name: "ConfessIt-V2",
+    name: "ConfessIt",
     status: "shipped",
     summary:
-      "Real-time anonymous messaging with fast WebSocket pipelines.",
+      "Anonymous social platform for confessions, matchmaking, love notes, and mini-games.",
     stack: [
-      "Python",
-      "FastAPI",
-      "Redis",
-      "WebSockets",
-      "PostgreSQL",
+      "React",
       "TypeScript",
-      "JWT",
-    ],
-    highlights: [
-      "Async WebSocket fan-out",
-      "Redis pub/sub message broadcast",
-      "JWT auth with PostgreSQL persistence",
-    ],
-  },
-  {
-    id: "tracient",
-    name: "Tracient",
-    status: "prototype",
-    summary:
-      "Blockchain welfare intelligence platform with anomaly detection.",
-    stack: [
-      "Go",
-      "Hyperledger Fabric",
-      "Chaincode",
+      "Tailwind CSS",
+      "FastAPI",
+      "Python",
+      "MongoDB",
+      "Redis",
       "Docker",
-      "Machine Learning",
     ],
     highlights: [
-      "Consortium ledger architecture",
-      "Income traceability workflows",
-      "AI/ML anomaly detection signals",
+      "Anonymous confession sharing with reactions and comments",
+      "Matchmaking system for discovering connections",
+      "Magic-link authentication for passwordless access",
+      "Redis and MongoDB backend architecture",
     ],
   },
 ];
@@ -95,19 +102,23 @@ const PROJECTS = [
 const STACK_GROUPS = [
   {
     label: "backend",
-    items: ["FastAPI", "Flask", "Node.js", "REST", "WebSockets", "gRPC"],
+    items: ["FastAPI", "Flask", "REST", "WebSockets"],
   },
   {
     label: "data",
-    items: ["PostgreSQL", "Redis", "SQLite", "Timescale"],
+    items: ["PostgreSQL", "Redis", "MongoDB"],
   },
   {
     label: "infra",
-    items: ["Docker", "Kubernetes", "Terraform", "Linux", "Nginx"],
+    items: ["Docker", "Kubernetes", "Terraform", "Linux"],
   },
   {
-    label: "observ",
-    items: ["Prometheus", "Grafana", "Loki", "Tempo", "OpenTelemetry"],
+    label: "ai/ml",
+    items: ["XGBoost", "Groq", "Google Gemini"],
+  },
+  {
+    label: "frontend",
+    items: ["Next.js", "React", "TypeScript"],
   },
 ];
 
@@ -200,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
         appendLine("out", "operator      :: Devathmaj A Kaliyathan");
         appendLine("out", "role          :: CS undergraduate - backend & reliability");
         appendLine("out", "location      :: Kerala, India");
-        appendLine("out", "focus         :: observability - distributed infra - k8s");
+        appendLine("out", "focus         :: backend - infrastructure - reliability");
         break;
       case "ls":
         if (args.length === 0 || args[0] === "projects") {
@@ -243,10 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
         appendLine("out", "----------------------");
         appendLine("out", "prometheus    :: metrics aggregation");
         appendLine("out", "grafana       :: dashboards and visualization");
-        appendLine("out", "loki          :: centralized logs");
-        appendLine("out", "tempo         :: distributed tracing");
-        appendLine("out", "otel          :: instrumentation pipeline");
-        appendLine("out", "alertmanager  :: alert routing");
+        appendLine("out", "tracing       :: distributed trace pipeline");
         break;
       case "traces":
         appendLine("out", "trace pipeline");
@@ -286,8 +294,7 @@ document.addEventListener("DOMContentLoaded", () => {
         appendLine("out", "build container images");
         appendLine("out", "apply kubernetes manifests");
         appendLine("out", "provision infrastructure");
-        appendLine("out", "expose observability stack");
-        appendLine("out", "verify telemetry health");
+        appendLine("out", "verify health");
         break;
       case "infra":
         appendLine("out", "infrastructure layout");
@@ -295,9 +302,7 @@ document.addEventListener("DOMContentLoaded", () => {
         appendLine("out", "docker compose");
         appendLine("out", "kubernetes manifests");
         appendLine("out", "terraform provisioning");
-        appendLine("out", "nginx reverse proxy");
         appendLine("out", "postgres persistence");
-        appendLine("out", "internal-only services");
         break;
       case "ping": {
         const host = args[0] || "devathmaj.local";

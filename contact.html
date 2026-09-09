@@ -72,6 +72,10 @@
             <textarea id="message" name="message" placeholder="Tell me about your project..." required></textarea>
             <label for="message">Message</label>
           </div>
+          <div class="honeypot" aria-hidden="true">
+            <input type="text" name="website" tabindex="-1" autocomplete="off">
+          </div>
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAEtv53G9bikXI2ca" data-theme="dark"></div>
           <button type="submit" class="submit-btn">
             Send Message
           </button>
@@ -82,6 +86,7 @@
       </div>
     </section>
   </div>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <script type="module" src="/js/transition.js"></script>
   <script type="module" src="/js/contact.js"></script>
 </body>

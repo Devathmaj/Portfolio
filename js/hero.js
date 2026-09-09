@@ -16,10 +16,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // Select hero image element
   const heroImg = document.querySelector(".hero-img img");
   const heroImages = [
+    "./images/work-items/VoucherBot.png",
+    "./images/work-items/VoucherBot_Discord.png",
+    "./images/work-items/VoucherBot_Telegram.png",
     "./images/work-items/Continumm.png",
-    "./images/work-items/storageos.jpg",
     "./images/work-items/Confessit.png",
-    "./images/work-items/tracient.png",
     "./images/work-items/serverscribe.png",
     "./images/work-items/netbackup.png",
     "./images/work-items/dms.png",
