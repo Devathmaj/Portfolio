@@ -86,7 +86,7 @@ const PROJECTS = [
       "Tailwind CSS",
       "FastAPI",
       "Python",
-      "MongoDB",
+      "PostgreSQL",
       "Redis",
       "Docker",
     ],
@@ -94,7 +94,7 @@ const PROJECTS = [
       "Anonymous confession sharing with reactions and comments",
       "Matchmaking system for discovering connections",
       "Magic-link authentication for passwordless access",
-      "Redis and MongoDB backend architecture",
+      "Redis and PostgreSQL backend architecture",
     ],
   },
 ];

@@ -1,46 +1,4 @@
 // contact.js
-import emailjs from "@emailjs/browser";
-
-const EMAILJS_SERVICE_ID = "service_m9m8889";
-const EMAILJS_TEMPLATE_ID = "template_zivhcmr";
-const EMAILJS_PUBLIC_KEY = "wH52AB0d2qo6ZOxCB";
-
-const RATE_LIMIT_MAX = 3;
-const RATE_LIMIT_WINDOW_MS = 24 * 60 * 60 * 1000;
-const RATE_LIMIT_KEY = "contact_form_submissions";
-
-function getRateLimitData() {
-  try {
-    const raw = localStorage.getItem(RATE_LIMIT_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
-}
-
-function isRateLimited() {
-  const now = Date.now();
-  const timestamps = getRateLimitData().filter(
-    (ts) => now - ts < RATE_LIMIT_WINDOW_MS
-  );
-  localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(timestamps));
-  return timestamps.length >= RATE_LIMIT_MAX;
-}
-
-function recordSubmission() {
-  const timestamps = getRateLimitData();
-  timestamps.push(Date.now());
-  localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(timestamps));
-}
-
-function resetTurnstile() {
-  if (typeof turnstile !== "undefined") {
-    const widget = document.querySelector(".cf-turnstile");
-    if (widget) {
-      turnstile.reset(widget);
-    }
-  }
-}
 
 // Wait for DOM to fully load before executing
 document.addEventListener("DOMContentLoaded", () => {
@@ -48,12 +6,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const isContactPage = document.querySelector(".page.contact-page");
   if (!isContactPage) return;
 
-  if (EMAILJS_PUBLIC_KEY) {
-    emailjs.init(EMAILJS_PUBLIC_KEY);
-  }
-
   // Select trail container for mouse-driven image trail
   const container = document.querySelector(".trail-container");
+  if (!container) return;
+
   let isDesktop = window.innerWidth > 1000; // Check if screen is desktop (> 1000px)
   let animationId = null; // Store animation frame ID
   let mouseMoveListener = null; // Store mousemove event listener
@@ -216,113 +172,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // Handle form submission with feedback
-  const handleFormSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission
-    const form = e.target;
-    const submitBtn = form.querySelector(".submit-btn"); // Submit button
-    const successMessage = document.getElementById("successMessage"); // Success message element
-
-    submitBtn.style.transform = "translateY(-1px)"; // Slight button press effect
-    submitBtn.textContent = "Sending..."; // Update button text
-    submitBtn.disabled = true; // Disable button
-
-    try {
-      if (isRateLimited()) {
-        throw new Error("rate_limited");
-      }
-
-      const honeypot = form.querySelector('input[name="website"]');
-      if (honeypot && honeypot.value) {
-        throw new Error("honeypot");
-      }
-
-      const turnstileResponse = form.querySelector('[name="cf-turnstile-response"]');
-      if (!turnstileResponse || !turnstileResponse.value) {
-        throw new Error("turnstile_missing");
-      }
-
-      if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
-        throw new Error("Missing EmailJS configuration");
-      }
-
-      const formData = new FormData(form);
-      const name = String(formData.get("name") || "").trim();
-      const fromEmail = String(formData.get("email") || "").trim();
-      const phone = String(formData.get("phone") || "").trim();
-      const subjectInput = String(formData.get("subject") || "").trim();
-      const message = String(formData.get("message") || "").trim();
-
-      const fromName = name || "Website visitor";
-      const subject = subjectInput || "Portfolio inquiry";
-      const digitsOnly = phone.replace(/\D/g, "");
-      let fromMobile = phone;
-      if (digitsOnly.length === 10) {
-        fromMobile = `+91 ${digitsOnly}`;
-      } else if (digitsOnly.length === 12 && digitsOnly.startsWith("91")) {
-        fromMobile = `+91 ${digitsOnly.slice(2)}`;
-      } else if (digitsOnly.length === 13 && digitsOnly.startsWith("091")) {
-        fromMobile = `+91 ${digitsOnly.slice(3)}`;
-      }
-      if (!fromMobile) {
-        fromMobile = "N/A";
-      }
-      const time = new Date().toLocaleString("en-IN", {
-        timeZone: "Asia/Kolkata",
-        hour12: true,
-        year: "numeric",
-        month: "short",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-
-      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-        from_name: fromName,
-        from_email: fromEmail || "unknown@invalid.local",
-        from_mobile: fromMobile,
-        subject,
-        message,
-        reply_to: fromEmail,
-        time,
-      });
-
-      recordSubmission();
-      form.reset(); // Reset form
-      resetTurnstile();
-      submitBtn.textContent = "Send Message"; // Restore button text
-      successMessage.textContent =
-        "Thanks! Your message has been sent. I will get back to you within 24 hours.";
-      successMessage.classList.add("show"); // Show success message
-    } catch (error) {
-      console.error("EmailJS send failed", error);
-      submitBtn.textContent = "Send Message"; // Restore button text
-      resetTurnstile();
-      if (error.message === "rate_limited") {
-        const timestamps = getRateLimitData().filter(
-          (ts) => Date.now() - ts < RATE_LIMIT_WINDOW_MS
-        );
-        const remaining = RATE_LIMIT_MAX - timestamps.length;
-        successMessage.textContent =
-          remaining > 0
-            ? `Rate limit reached. You have ${remaining} message${remaining !== 1 ? "s" : ""} left today.`
-            : "Daily message limit reached (3/day). Please try again tomorrow.";
-      } else if (error.message === "honeypot" || error.message === "turnstile_missing") {
-        successMessage.textContent = "Verification failed. Please refresh and try again.";
-      } else {
-        successMessage.textContent =
-          "send_failed :: transmission error. Try again in a moment.";
-      }
-      successMessage.classList.add("show"); // Show error message
-    } finally {
-      submitBtn.disabled = false; // Enable button
-      submitBtn.style.transform = ""; // Reset button style
-      setTimeout(() => {
-        successMessage.classList.remove("show"); // Hide after 5s
-      }, 5000);
-    }
-  };
-
   // Enhance form inputs with focus/blur animations
   const enhanceFormInputs = () => {
     const inputs = document.querySelectorAll(".form-group input, .form-group textarea, .form-group select");
@@ -336,14 +185,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
+  // The contact form is retained for display only; submissions are disabled.
+  const contactForm = document.getElementById("contactForm");
+  if (contactForm) {
+    contactForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+    });
+  }
+
   // Add event listeners and initialize
   window.addEventListener("resize", handleResize); // Handle resize
   createFloatingElements(); // Create background floating elements
   enhanceFormInputs(); // Enhance form inputs
-  const contactForm = document.getElementById("contactForm");
-  if (contactForm) {
-    contactForm.addEventListener("submit", handleFormSubmit); // Add form submit handler
-  }
   if (isDesktop) {
     startAnimation(); // Start animation on desktop
   }

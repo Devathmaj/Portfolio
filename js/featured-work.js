@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Mini-games designed to help users break the ice and engage with others",
         "Customizable user profiles with bios, interests, and profile pictures",
         "Magic-link authentication for passwordless and secure user access",
-        "Redis-powered backend support alongside MongoDB for application data",
+        "Redis-powered backend support alongside PostgreSQL for application data",
       ],
       stack: [
         "React",
@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "shadcn/ui",
         "FastAPI",
         "Python",
-        "MongoDB",
+        "PostgreSQL",
         "Redis",
         "Docker",
         "Docker Compose",

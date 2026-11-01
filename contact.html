@@ -52,6 +52,9 @@
         <div class="form-header">
           <h2>Contact Me</h2>
           <p>Please share a few details about your project.</p>
+          <p class="form-notice">
+            This contact form no longer works. Please reach out using the email or LinkedIn details instead.
+          </p>
         </div>
         <form class="contact-form" id="contactForm">
           <div class="form-row">
@@ -72,21 +75,13 @@
             <textarea id="message" name="message" placeholder="Tell me about your project..." required></textarea>
             <label for="message">Message</label>
           </div>
-          <div class="honeypot" aria-hidden="true">
-            <input type="text" name="website" tabindex="-1" autocomplete="off">
-          </div>
-          <div class="cf-turnstile" data-sitekey="0x4AAAAAAEtv53G9bikXI2ca" data-theme="dark"></div>
-          <button type="submit" class="submit-btn">
+          <button type="submit" class="submit-btn" disabled>
             Send Message
           </button>
-          <div class="success-message" id="successMessage">
-            <p>Thanks! Your message has been sent. I will reply within 24 hours.</p>
-          </div>
         </form>
       </div>
     </section>
   </div>
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <script type="module" src="/js/transition.js"></script>
   <script type="module" src="/js/contact.js"></script>
 </body>
