@@ -1,0 +1,246 @@
+/* retired portfolio notice */
+
+.retired-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2em;
+  background: rgba(238, 244, 247, 0.86);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  transition: opacity 0.3s ease;
+}
+
+.retired-overlay.is-leaving {
+  opacity: 0;
+  pointer-events: none;
+}
+
+html.retired-notice-dismissed .retired-overlay {
+  display: none;
+}
+
+html.retired-lock,
+html.retired-lock body {
+  overflow: hidden;
+}
+
+.retired-card {
+  position: relative;
+  width: min(760px, 100%);
+  max-height: calc(100svh - 4em);
+  overflow-y: auto;
+  padding: 3.25em 3em 3em;
+  background: var(--foam);
+  border: 3px solid var(--fg);
+  border-radius: 1.25em;
+  box-shadow: 14px 14px 0 var(--fg);
+  animation: retiredCardIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.retired-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 12px;
+  border-radius: 1.1em 1.1em 0 0;
+  background: repeating-linear-gradient(
+    135deg,
+    var(--accent2) 0 14px,
+    var(--fg) 14px 28px
+  );
+}
+
+.retired-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65em;
+  padding: 0.5em 0.8em;
+  border: 1px solid var(--fg);
+  border-radius: 999px;
+  background: var(--bg2);
+}
+
+.retired-eyebrow::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent2);
+  box-shadow: 0 0 0 3px rgba(234, 123, 101, 0.25);
+  animation: retiredPulse 1.6s ease-in-out infinite;
+}
+
+.retired-message {
+  margin-top: 1.25em;
+  font-family: "formula-narrow";
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 600;
+  line-height: 1.2;
+  text-wrap: pretty;
+}
+
+.retired-message a {
+  color: var(--accent1);
+  border-bottom: 2px solid currentColor;
+  transition: color 0.15s ease;
+}
+
+.retired-message a:hover {
+  color: var(--accent2);
+}
+
+.retired-timer {
+  margin-top: 2.25em;
+}
+
+.retired-timer-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1em;
+  margin-bottom: 0.6em;
+}
+
+.retired-count {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent2);
+  font-variant-numeric: tabular-nums;
+}
+
+.retired-progress {
+  height: 12px;
+  border: 2px solid var(--fg);
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--bg2);
+}
+
+.retired-progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent1), var(--accent2));
+}
+
+.retired-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.25em;
+  margin-top: 2em;
+}
+
+.retired-stay {
+  padding: 0.9em 1.4em;
+  font-family: "supply-mono";
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--bg);
+  background: var(--fg);
+  border: 2px solid var(--fg);
+  border-radius: 0.6em;
+  box-shadow: 4px 4px 0 var(--accent2);
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.retired-stay:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--accent2);
+}
+
+.retired-stay:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--accent2);
+}
+
+.retired-stay:focus-visible {
+  outline: 3px solid var(--accent1);
+  outline-offset: 3px;
+}
+
+.retired-go {
+  color: var(--accent1);
+  border-bottom: 2px solid currentColor;
+  padding-bottom: 2px;
+  transition: color 0.15s ease;
+}
+
+.retired-go:hover {
+  color: var(--accent2);
+}
+
+@keyframes retiredCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes retiredPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.8);
+  }
+}
+
+@media (max-width: 1000px) {
+  .retired-overlay {
+    padding: 1em;
+  }
+
+  .retired-card {
+    padding: 2.25em 1.5em 1.75em;
+    border-radius: 1em;
+    box-shadow: 8px 8px 0 var(--fg);
+  }
+
+  .retired-card::before {
+    height: 10px;
+  }
+
+  .retired-message {
+    font-size: clamp(1.2rem, 5vw, 1.5rem);
+  }
+
+  .retired-actions {
+    gap: 1em;
+  }
+
+  .retired-stay {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .retired-card {
+    animation: none;
+  }
+
+  .retired-eyebrow::before {
+    animation: none;
+  }
+
+  .retired-overlay {
+    transition: none;
+  }
+}

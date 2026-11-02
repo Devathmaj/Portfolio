@@ -20,6 +20,15 @@
   <title>Devathmaj A Kaliyathan | Portfolio</title>
   <link rel="icon" type="image/png" href="/images/global/site-icon.png" />
 
+  <script>
+    // Keep the retired notice hidden for this tab once the visitor chose to stay.
+    try {
+      if (sessionStorage.getItem("retiredNoticeDismissed") === "1") {
+        document.documentElement.classList.add("retired-notice-dismissed");
+      }
+    } catch (error) {}
+  </script>
+
   <link rel="stylesheet" href="/css/transition.css" />
   <link rel="stylesheet" href="/css/fonts.css" />
   <link rel="stylesheet" href="/css/globals.css" />
@@ -29,10 +38,34 @@
 
   <link rel="stylesheet" href="/css/contact.css" />
   <link rel="stylesheet" href="/css/footer.css" />
+  <link rel="stylesheet" href="/css/retired.css" />
 
 </head>
 
 <body>
+  <!-- retired portfolio notice -->
+  <div class="retired-overlay" id="retiredOverlay" role="dialog" aria-modal="true" aria-labelledby="retiredMessage">
+    <div class="retired-card">
+      <p class="mn retired-eyebrow">Notice · Site Retired</p>
+      <p class="retired-message" id="retiredMessage">
+        This portfolio has been retired. You can find my current work at my new portfolio → <a href="https://devathmaj.me">https://devathmaj.me</a>
+      </p>
+      <div class="retired-timer">
+        <div class="retired-timer-head">
+          <p class="mn">Redirecting in</p>
+          <p class="mn retired-count" id="retiredCount">5s</p>
+        </div>
+        <div class="retired-progress" aria-hidden="true">
+          <span id="retiredProgress"></span>
+        </div>
+      </div>
+      <div class="retired-actions">
+        <button type="button" class="retired-stay" id="retiredStay">Stay here</button>
+        <a class="retired-go mn" href="https://devathmaj.me">Go now →</a>
+      </div>
+    </div>
+  </div>
+
   <!-- page transition  -->
   <div class="transition">
     <div class="transition-overlay overlay-1"></div>
@@ -112,6 +145,12 @@
       <div class="hero-footer">
         <div class="hero-footer-symbols">
           <img src="./images/global/symbols.png" alt="" />
+        </div>
+        <div class="hero-footer-center">
+          <p class="mn hero-footer-retired">
+            Portfolio retired · now at
+            <a href="https://devathmaj.me" target="_blank" rel="noopener">devathmaj.me</a>
+          </p>
         </div>
         <div class="hero-footer-tags">
           <p class="mn">Sys Nominal: ON </p>
@@ -521,6 +560,10 @@
         </div>
         <div class="footer-header">
           <h1>Devathmaj A Kaliyathan</h1>
+          <p class="mn footer-retired">
+            Portfolio retired · now at
+            <a href="https://devathmaj.me" target="_blank" rel="noopener">devathmaj.me</a>
+          </p>
         </div>
         <div class="footer-row">
           <div class="footer-col">
@@ -567,6 +610,7 @@
 
   </div>
   <script type="module" src="/js/transition.js"></script>
+  <script type="module" src="/js/retired.js"></script>
   <script type="module" src="/js/lenis-scroll.js"></script>
   <script type="module" src="/js/menu.js"></script>
   <script type="module" src="/js/hero.js"></script>

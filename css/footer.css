@@ -29,6 +29,35 @@ footer {
     position: relative;
     text-align: center;
   }
+
+  footer .footer-header .footer-retired {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    margin-top: 1.25em;
+    padding: 0.55em 1em;
+    font-size: 0.9375rem;
+    color: var(--fg);
+    background: var(--foam);
+    border: 1px solid var(--bg);
+    border-radius: 999px;
+    box-shadow: 3px 3px 0 var(--accent2);
+  }
+
+  footer .footer-header .footer-retired::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--accent2);
+    animation: heroRetiredPulse 1.6s ease-in-out infinite;
+  }
+
+  footer .footer-header .footer-retired a {
+    color: var(--accent1);
+    border-bottom: 1px solid currentColor;
+  }
   
   footer .footer-row {
     display: flex;
@@ -135,6 +164,12 @@ footer {
     }
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    footer .footer-header .footer-retired::before {
+      animation: none;
+    }
+  }
+
   @media (max-width: 640px) {
     footer {
       height: auto;
@@ -149,6 +184,17 @@ footer {
 
     footer .footer-header h1 {
       font-size: clamp(1.2rem, 4vw, 2rem);
+    }
+
+    footer .footer-header .footer-retired {
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 100%;
+      margin-top: 0.9em;
+      padding: 0.5em 0.8em;
+      font-size: 0.75rem;
+      text-align: center;
+      row-gap: 0.2em;
     }
 
     footer .footer-row {
